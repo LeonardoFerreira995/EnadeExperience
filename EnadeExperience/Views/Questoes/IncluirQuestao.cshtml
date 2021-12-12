@@ -1,0 +1,317 @@
+﻿@model QuestoesViewModel
+@{
+    Layout = "_Layout";
+
+    var vID = 0;
+    var vQuestao = "";
+    var vResposta = "";
+    var vIDCurso = 0;
+    var vNomeCurso = "";
+    var vIDDisciplina = 0;
+    var vIDNomeDisciplina = "";
+    var vIDDisciplina2 = 0;
+    var vIDNomeDisciplina2 = "";
+    var vIDDisciplina3 = 0;
+    var vIDNomeDisciplina3 = "";
+    var vIDDisciplina4 = 0;
+    var vIDNomeDisciplina4 = "";
+    var vIDDisciplina5 = 0;
+    var vIDNomeDisciplina5 = "";
+    var vAno = "";
+    var vDificuldade = "";
+    var vImagem = "";
+
+    try
+    {
+        vID = int.Parse(ViewBag.ListaQuestao.ID.ToString());
+        vQuestao = ViewBag.ListaQuestao.Questao.ToString();
+        vResposta = ViewBag.ListaQuestao.Resposta.ToString();
+        vIDCurso = int.Parse(ViewBag.ListaQuestao.Curso.ToString());
+        vNomeCurso = ViewBag.NomeCurso.Curso.ToString();
+        vIDDisciplina = int.Parse(ViewBag.ListaQuestao.Disciplina.ToString());
+        vIDNomeDisciplina = ViewBag.NomeDisciplina.Disciplina.ToString();
+        vIDDisciplina2 = int.Parse(ViewBag.ListaQuestao.Disciplina2.ToString());
+        vIDNomeDisciplina2 = ViewBag.NomeDisciplina.Disciplina2.ToString();
+        vIDDisciplina3 = int.Parse(ViewBag.ListaQuestao.Disciplina3.ToString());
+        vIDNomeDisciplina3 = ViewBag.NomeDisciplina.Disciplina3.ToString();
+        vIDDisciplina4 = int.Parse(ViewBag.ListaQuestao.Disciplina4.ToString());
+        vIDNomeDisciplina4 = ViewBag.NomeDisciplina.Disciplina4.ToString();
+        vIDDisciplina5 = int.Parse(ViewBag.ListaQuestao.Disciplina5.ToString());
+        vIDNomeDisciplina5 = ViewBag.NomeDisciplina.Disciplina5.ToString();
+        vAno = ViewBag.ListaQuestao.Ano.ToString();
+        vDificuldade = ViewBag.ListaQuestao.Dificuldade.ToString();
+        vImagem = ViewBag.ListaQuestao.Imagem.ToString();
+
+    }
+    catch { }
+
+    if (vID > 0)
+    {
+        ViewData["Title"] = "Alterar Questão";
+    }
+    else
+    {
+        ViewData["Title"] = "Incluir Questão";
+    }
+
+}
+
+<div class="text-center">
+    @{
+        if (vID > 0)
+        {
+            <h1 class="display-4">Alterar Questão</h1>
+        }
+        else
+        {
+            <h1 class="display-4">Incluir Questão</h1>
+        }
+    }
+
+</div>
+
+<div class="corpo">
+
+    <form asp-controller="Questoes" asp-action="IncluirQuestao" id="formulario" enctype="multipart/form-data">
+        <input type="hidden" asp-for="ID" value="@vID" />
+
+
+        <h6>Questão</h6>
+
+        @*<input type="text" class="form-control" asp-for="Questao" value="@vQuestao" placeholder="Digite a questão aqui" required>*@
+
+        <textarea id="Description" class="ckeditor" name="Questao" rows="200" required>@vQuestao</textarea>
+
+        <br />
+
+        <h6>Resposta</h6>
+
+        <textarea id="Description" class="ckeditor" name="Resposta" rows="200" required>@vResposta</textarea>
+
+        <br />
+
+        <h6>Imagem</h6>
+
+        <input type="file" name="Image" accept="image/png, image/jpeg" class="form-control" id="Image" />
+
+        @{
+            if (vImagem != "")
+            {
+                <br />
+                <strong>Arquivo atual: </strong><label>@vImagem</label>
+                <button class="bnt btn-sm btn-danger" asp-action="ExcluirImagem" asp-route-id="@vID">Excluir Imagem</button>
+                <br /><br />
+            }
+        }
+
+
+        <br />
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6 class="ajustaTexto">Curso</h6>
+                    <select name="Curso" form="formulario" class="dropdown-item-text" required>
+                        @{
+                            <option value="">Selecione o Curso</option>
+                            if (vIDCurso != 0)
+                            {
+                                <option value="@vIDCurso" selected>@vNomeCurso</option>
+                                <option value="" disabled>-------------</option>
+                            }
+
+                            foreach (var curso in ViewBag.Cursos)
+                            {
+                                <option value="@curso.ID">@curso.NomeCurso</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <br />
+
+
+                <div class="col-md-4">
+                    <h6 class="ajustaTexto">Ano</h6>
+                    <select name="Ano" form="formulario" class="dropdown-item-text" asp-for="Ano" required>
+                        @{
+                            <option value="">Selecione o Ano</option>
+                            if (vAno != "")
+                            {
+                                <option value="@vAno" selected>@vAno</option>
+                                <option value="" disabled>---------</option>
+                            }
+                            for (int i = DateTime.Now.Year; i != 2003; i--)
+                            {
+                                <option value="@i.ToString()">@i.ToString()</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <br />
+
+                <div class="col-md-4">
+                    <h6 class="ajustaTexto">Dificuldade</h6>
+                    <select name="Dificuldade" form="formulario" class="dropdown-item-text" asp-for="Dificuldade" required>
+                        <option value="">Selecione a Dificuldade</option>
+                        @if (vDificuldade != "")
+                        {
+                            <option value="@vDificuldade" selected>@vDificuldade</option>
+                            <option value="" disabled>-------------</option>
+                        }
+                        <option value="Facil">Fácil</option>
+                        <option value="Medio">Médio</option>
+                        <option value="Dificil">Difícil</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <br />
+
+        <center>
+            <h5>Cadastre até 5 disciplinas!</h5>
+        </center>
+
+        <br />
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6 class="ajustaTexto">Disciplina 1</h6>
+                    <select name="Disciplina" form="formulario" class="dropdown-item-text dropdown-menu-xl-left" required>
+                        @{
+                            <option value="">Selecione a Disciplina</option>
+                            if (vIDDisciplina != 0)
+                            {
+                                <option value="@vIDDisciplina" selected>@vIDNomeDisciplina</option>
+                                <option value="" disabled>-------------</option>
+                            }
+                            foreach (var disciplina in ViewBag.Disciplinas)
+                            {
+                                <option value="@disciplina.ID">@disciplina.NomeDisciplina</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <h6 class="ajustaTexto">Disciplina 2</h6>
+                    <select name="Disciplina2" form="formulario" class="dropdown-item-text dropdown-menu-xl-left">
+                        @{
+                            <option value="">Selecione a Disciplina</option>
+                            if (vIDDisciplina2 != 0)
+                            {
+                                <option value="@vIDDisciplina2" selected>@vIDNomeDisciplina2</option>
+                                <option value="" disabled>-------------</option>
+                            }
+                            foreach (var disciplina in ViewBag.Disciplinas)
+                            {
+                                <option value="@disciplina.ID">@disciplina.NomeDisciplina</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <h6 class="ajustaTexto">Disciplina 3</h6>
+                    <select name="Disciplina3" form="formulario" class="dropdown-item-text dropdown-menu-xl-left">
+                        @{
+                            <option value="">Selecione a Disciplina</option>
+                            if (vIDDisciplina3 != 0)
+                            {
+                                <option value="@vIDDisciplina3" selected>@vIDNomeDisciplina3</option>
+                                <option value="" disabled>-------------</option>
+                            }
+                            foreach (var disciplina in ViewBag.Disciplinas)
+                            {
+                                <option value="@disciplina.ID">@disciplina.NomeDisciplina</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <br />
+
+        <div class="float-left ml-3">
+            <center>
+                <h6>Disciplina 4</h6>
+            </center>
+            <select name="Disciplina4" form="formulario" class="dropdown-item-text dropdown-menu-xl-left" style="width: 270px;">
+                @{
+                    <option value="">Selecione a Disciplina</option>
+                    if (vIDDisciplina4 != 0)
+                    {
+                        <option value="@vIDDisciplina4" selected>@vIDNomeDisciplina4</option>
+                        <option value="" disabled>-------------</option>
+                    }
+                    foreach (var disciplina in ViewBag.Disciplinas)
+                    {
+                        <option value="@disciplina.ID">@disciplina.NomeDisciplina</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="float-right mr-4">
+            <center>
+                <h6>Disciplina 5</h6>
+            </center>
+            <select name="Disciplina5" form="formulario" class="dropdown-item-text dropdown-menu-xl-left" style="width: 270px;">
+                @{
+                    <option value="">Selecione a Disciplina</option>
+                    if (vIDDisciplina5 != 0)
+                    {
+                        <option value="@vIDDisciplina5" selected>@vIDNomeDisciplina5</option>
+                        <option value="" disabled>-------------</option>
+                    }
+                    foreach (var disciplina in ViewBag.Disciplinas)
+                    {
+                        <option value="@disciplina.ID">@disciplina.NomeDisciplina</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <br /><br /><br /><br />
+
+        <button type="button" class="btn btn-info float-left" onclick="VoltarPagina()">Voltar</button>
+        @{
+            if (vID > 0)
+            {
+                <button type="submit" class="btn btn-success float-right" onclick="PopUpEdicao()">Editar Questão</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-success float-right" onclick="PopUpInclusao()">Incluir Questão</button>
+            }
+        }
+
+
+    </form>
+</div>
+
+<script>
+
+    function VoltarPagina() {
+
+        window.location.href = "/Questoes/Questoes";
+
+    }
+
+    $(document).ready(function () {
+        CKEDITOR.replace('#Description');
+    });
+
+
+    //function PopUpInclusao() {
+    //    alert("Questão incluída com sucesso")
+    //}
+
+    //function PopUpEdicao() {
+    //    alert("Questão alterada com sucesso")
+    //}
+
+</script>

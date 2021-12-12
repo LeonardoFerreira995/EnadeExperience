@@ -1,0 +1,86 @@
+﻿@model DisciplinasViewModel
+@{
+    Layout = "_Layout";
+
+
+    var vDisciplina = "";
+    var vID = 0;
+
+    try
+    {
+        vDisciplina = ViewBag.ListaDisciplina.NomeDisciplina.ToString();
+        vID = int.Parse(ViewBag.ListaDisciplina.ID.ToString());
+    }
+    catch { }
+
+    if (vID > 0)
+    {
+        ViewData["Title"] = "Alterar Disciplina";
+    }
+    else
+    {
+        ViewData["Title"] = "Incluir Disciplina";
+    }
+}
+
+<div class="text-center">
+    @{ if (vID > 0)
+        {
+            <h1 class="display-4">Alterar Disciplina</h1>
+        }
+        else
+        {
+            <h1 class="display-4">Incluir Disciplina</h1>
+        }
+    }
+
+</div>
+
+<div class="corpo">
+
+    <form asp-controller="Disciplinas" asp-action="IncluirDisciplina">
+        <input type="hidden" asp-for="ID" value="@vID" />
+
+        <div class="row mb-5">
+            <asp:label>Nome da Disciplina: </asp:label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" asp-for="NomeDisciplina" value="@vDisciplina" placeholder="Digite a Disciplina" required>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-info float-left" onclick="VoltarPagina()">Voltar</button>
+
+        @{
+            if (vID > 0)
+            {
+                <button type="submit" class="btn btn-success float-right" onclick="PopUpEdicao()">Alterar Disciplina</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-success float-right" onclick="PopUpInclusao()">Incluir Disciplina</button>
+            }
+        }
+
+
+    </form>
+
+</div>
+
+<script>
+
+    function VoltarPagina() {
+
+        window.location.href = "/Disciplinas/Disciplinas";
+
+    }
+
+    //function PopUpInclusao() {
+    //    alert("Disciplina incluída com sucesso")
+    //}
+
+    //function PopUpEdicao() {
+    //    alert("Disciplina alterada com sucesso")
+    //}
+
+</script>
+

@@ -1,0 +1,121 @@
+﻿@model DashEnadeViewModel
+@{
+    Layout = "_Layout";
+
+    var vID = 0;
+    var vInstituicao = "";
+    var vCurso = "";
+    var vNota = 0;
+    var vAno = 0;
+
+    try
+    {
+        vID = int.Parse(ViewBag.ListaDash.ID.ToString());
+        vInstituicao = ViewBag.ListaDash.Instituicao.ToString();
+        vCurso = ViewBag.ListaDash.Curso.ToString();
+        vNota = int.Parse(ViewBag.ListaDash.Nota.ToString());
+        vAno = int.Parse(ViewBag.ListaDash.AnoAplicacao.ToString());
+    }
+    catch { }
+
+    if (vID > 0)
+    {
+        ViewData["Title"] = "Alterar Resultado";
+    }
+    else
+    {
+        ViewData["Title"] = "Incluir Resultado";
+    }
+
+}
+
+<div class="text-center">
+    @{
+        if (vID > 0)
+        {
+            <h1 class="display-4">Alterar Resultado</h1>
+        }
+        else
+        {
+            <h1 class="display-4">Incluir Resultado</h1>
+        }
+    }
+
+</div>
+
+<div class="corpo">
+
+    <form asp-controller="DashEnade" asp-action="IncluirResultado" id="formulario">
+        <input type="hidden" asp-for="ID" value="@vID" />
+
+        <div class="container-fluid">
+
+            <h6>Instituição</h6>
+            <input type="text" class="form-control" asp-for="Instituicao" value="@vInstituicao" placeholder="Digite a Instituição" required>
+
+            <br />
+
+            <h6>Curso</h6>
+            <input type="text" class="form-control" asp-for="Curso" value="@vCurso" placeholder="Digite o Curso" required>
+
+            <br />
+
+            <h6>Nota</h6>
+            <input type="number" class="form-control" asp-for="Nota" value="@vNota" placeholder="Digite a Nota" required>
+
+            <br />
+
+            <h6>Ano</h6>
+            <select name="AnoAplicacao" class="dropdown-item-text" form="formulario" asp-for="AnoAplicacao" required>
+
+                @{
+                    <option value="">Selecione o ano</option>
+                    if (vAno != 0)
+                    {
+                        <option value="@vAno" selected>@vAno</option>
+                        <option value="" disabled>--------</option>
+                    }
+                    for (int i = DateTime.Now.Year; i != 2003; i--)
+                    {
+                        <option value="@i.ToString()">@i.ToString()</option>
+                    }
+                }
+
+            </select>
+
+        </div>
+
+        <br />
+
+        <button type="button" class="btn btn-info float-left" onclick="VoltarPagina()">Voltar</button>
+
+        @{
+            if (vID > 0)
+            {
+                <button type="submit" class="btn btn-success float-right" onclick="PopUpEdicao()">Alterar Resultado</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-success float-right" onclick="PopUpInclusao()">Incluir Resultado</button>
+            }
+        }
+
+    </form>
+</div>
+
+<script>
+
+    function VoltarPagina() {
+        window.location.href = "/DashEnade/AjusteTelaPrincipal";
+    }
+
+    //function PopUpInclusao() {
+    //    alert("Resultado incluído com sucesso")
+    //}
+
+    //function PopUpEdicao() {
+    //    alert("Resultado alterado com sucesso")
+    //}
+
+</script>
+

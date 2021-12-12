@@ -1,0 +1,86 @@
+﻿@model CursoViewModel
+@{
+    Layout = "_Layout";
+
+
+    var vCurso = "";
+    var vID = 0;
+
+    try
+    {
+        vCurso = ViewBag.ListaCursos.NomeCurso.ToString();
+        vID = int.Parse(ViewBag.ListaCursos.ID.ToString());
+    }
+    catch { }
+
+    if (vID > 0)
+    {
+        ViewData["Title"] = "Alterar Curso";
+    }
+    else
+    {
+        ViewData["Title"] = "Incluir Curso";
+    }
+
+}
+
+<div class="text-center">
+    @{
+        if (vID > 0)
+        {
+            <h1 class="display-4">Alterar Curso</h1>
+        }
+        else
+        {
+            <h1 class="display-4">Incluir Curso</h1>
+        }
+
+
+}
+
+</div>
+
+<div class="corpo">
+    <form asp-controller="Cursos" asp-action="IncluirCurso">
+        <input type="hidden" asp-for="ID" value="@vID" />
+
+        <div class="row mb-5">
+            <asp:label>Nome do Curso: </asp:label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" asp-for="NomeCurso" value="@vCurso" placeholder="Digite o Curso" required>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-info float-left" onclick="VoltarPagina()">Voltar</button>
+
+        @{
+            if (vID > 0)
+            {
+                <button type="submit" class="btn btn-success float-right" onclick="PopUpEdicao()">Alterar Curso</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-success float-right" onclick="PopUpInclusao()">Incluir Curso</button>
+            }
+        }
+
+    </form>
+</div>
+
+<script>
+
+    function VoltarPagina() {
+
+        window.location.href = "/Cursos/Cursos";
+
+    }
+
+    //function PopUpInclusao() {
+    //    alert("Curso incluído com sucesso")
+    //}
+
+    //function PopUpEdicao() {
+    //    alert("Curso alterado com sucesso")
+    //}
+</script>
+

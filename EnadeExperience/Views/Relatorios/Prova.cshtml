@@ -1,0 +1,44 @@
+﻿@model IEnumerable<EnadeExperience.Models.QuestoesViewModel>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>View</title>
+</head>
+<body>
+    <h2 class="text-center">Simulado Enade</h2>
+    <br />
+    <strong>Instituição: </strong><label>__________________________________________________</label><br />
+    <strong>Curso: </strong><label>__________________________________________________</label><br />
+    <strong>Nome: </strong><label>__________________________________________________</label><br />
+    <strong>Turma: </strong><label>____________________</label><br />
+    <strong>Sala: </strong><label>____________________</label>
+    <hr style="border-color: #DCDCDC" />
+    @foreach (var item in Model)
+    {
+        // Só está funcionando nessa logíca por algum motivo
+        @if (item.Imagem is null || item.Imagem == "")
+        {
+
+        }
+        else
+        {
+            <strong>Imagem: </strong>
+            <br />
+            <img style="width: 320px; height: 320px;" src="@Url.Content(item.Imagem)" />
+            <br /><br />
+        }
+        <strong>Questão: </strong>
+        <p class="text-justify">@Html.Raw(item.Questao)</p>
+        <br />
+        <hr style="border-color: #6C6C6C" />
+        <br />
+    }
+
+    <br />
+    <h6 class="float-right"><strong>Enade Experience</strong> By: AdLeste</h6>
+</body>
+</html>

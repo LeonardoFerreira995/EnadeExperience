@@ -1,0 +1,106 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Resultados";
+
+    var PopUp = 0;
+
+    try
+    {
+        PopUp = ViewBag.PopUpDash;
+    }
+    catch { }
+}
+<div class="text-center">
+
+    <h1 class="display-4">Resultados</h1>
+
+</div>
+
+<div class="corpo" onload="">
+    <div class="scroll">
+
+        <table class="table table-bordered">
+
+            <thead>
+                <tr>
+                    <th>Instituição</th>
+                    <th>Ano de Aplicação</th>
+                    <th>Curso</th>
+                    <th>Nota</th>
+                    <th class="text-center">Opções</th>
+                </tr>
+            </thead>
+
+            @{
+                foreach (var item in (List<DashEnadeViewModel>)ViewBag.ListaDash)
+                {
+                    <tbody>
+                        <tr>
+                            <td>@item.Instituicao</td>
+                            <td>@item.AnoAplicacao</td>
+                            <td>@item.Curso</td>
+                            <td>@item.Nota</td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="EditarResultado(@item.ID.ToString())">Editar</button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="ExcluirResultado(@item.ID.ToString())">Excluir</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            }
+
+        </table>
+
+    </div>
+
+    <br />
+
+    <button type="button" class="btn btn-info float-left" onclick="VoltarPagina()">Voltar</button>
+
+    <button type="button" class="btn btn-success float-right" onclick="IncluirResultado()">Incluir Resultado</button>
+
+</div>
+
+<script>
+
+    function IncluirResultado() {
+
+        window.location.href = "../DashEnade/IncluirResultado";
+
+    }
+
+    function EditarResultado(id_resultado) {
+
+        window.location.href = "../DashEnade/IncluirResultado/" + id_resultado;
+
+    }
+
+    function ExcluirResultado(id_resultado) {
+
+        let confirma = confirm("Deseja excluir o item selecionado?");
+
+        if (confirma == true) {
+            window.location.href = "../DashEnade/ExcluirResultado/" + id_resultado;
+        } else {
+            return;
+        }
+
+    }
+
+    window.onload = function PopUpDash() {
+        if (@PopUp == 1) {
+            window.location.href = "/DashEnade/AjusteTelaPrincipal"
+            alert("Resultado cadastrado com sucesso!")
+        } else if (@PopUp == 2) {
+            window.location.href = "/DashEnade/AjusteTelaPrincipal"
+            alert("Resultado alterado com sucesso!")
+        } else {
+            return;
+        }
+    }
+
+    function VoltarPagina() {
+        window.location.href = "/Home/Index";
+    }
+
+</script>

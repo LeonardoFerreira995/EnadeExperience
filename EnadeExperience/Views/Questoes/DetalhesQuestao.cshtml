@@ -1,0 +1,103 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Questões";
+}
+<div class="text-center">
+    <h5 class="display-4">Detalhes Questão</h5>
+</div>
+
+<div class="corpo">
+    <hr />
+    @foreach (var questao in (List<QuestoesViewModel>)ViewBag.DetalhesQuestao)
+    {
+        // Só está funcionando nessa logíca por algum motivo
+        @if (questao.Imagem is null || questao.Imagem == "")
+        {
+
+        }
+        else
+        {
+            <strong>Imagem: </strong>
+            <br />
+            <img style="width: 320px; height: 320px;" src="@Url.Content(questao.Imagem)" />
+            <br /><br />
+        }
+        <strong>Questão: </strong>
+        <p class="text-justify">@Html.Raw(questao.Questao)</p>
+        <br />
+        <strong>Resposta: </strong>
+        <p class="text-justify">@Html.Raw(questao.Resposta)</p>
+        <br />
+        <strong>Curso: </strong>
+        <p>@questao.Curso</p>
+        <br />
+        <strong>Disciplinas: </strong>
+        <p>
+            @questao.Disciplina<br />
+            @if (questao.Disciplina2 != "")
+            {
+                @questao.Disciplina2<br />
+            }
+
+            @if (questao.Disciplina3 != "")
+            {
+                @questao.Disciplina3<br />
+            }
+
+            @if (questao.Disciplina4 != "")
+            {
+                @questao.Disciplina4<br />
+            }
+
+            @if (questao.Disciplina5 != "")
+            {
+                @questao.Disciplina5<br />
+            }
+        </p>
+        <br />
+        <strong>Dificuldade: </strong>
+        <p>@questao.Dificuldade</p>
+        <br />
+        <strong>Ano: </strong>
+        <p>@questao.Ano</p>
+        <br />
+        <strong>Opções</strong>
+        <br />
+        <button type="button" class="btn btn-primary btn-sm" onclick="EditarQuestao(@questao.ID.ToString())">Editar</button>
+        <button type="button" class="btn btn-danger btn-sm" onclick="ExcluirQuestao(@questao.ID.ToString())">Excluir</button>
+    }
+
+    <br /><br /><br />
+
+    <button type="button" class="btn btn-info float-left" onclick="VoltarPagina()">Voltar</button>
+
+</div>
+
+<script>
+
+    function EditarQuestao(id_questao) {
+
+        window.location.href = "../Questoes/IncluirQuestao/" + id_questao;
+
+    }
+
+    function ExcluirQuestao(id_questao) {
+
+        let confirma = confirm("Deseja excluir a questão selecionada?");
+
+        if (confirma == true) {
+            window.location.href = "../Questoes/ExcluirQuestao/" + id_questao;
+            alert("Questão excluída com sucesso")
+        } else if (confirma == false) {
+            return;
+        }
+
+    }
+
+    function VoltarPagina() {
+
+        window.location.href = "/Questoes/Questoes";
+
+    }
+
+</script>

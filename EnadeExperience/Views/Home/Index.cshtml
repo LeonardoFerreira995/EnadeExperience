@@ -1,0 +1,92 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Página Principal";
+}
+
+<div class="container">
+    <div class="text-center">
+
+        <h1 class="display-4">Enade Experience</h1>
+
+    </div>
+
+    <div class="container-fluid">
+        <div class="quadroInfo">
+            <h5 class="text-center pt-4">Veja as informações dos Enades anteriores</h5>
+            <div class="infos">
+            
+            @*<br />*@
+            
+                <div class="scrollPrincipal">
+
+                    <table class="table table-bordered">
+
+                        <thead>
+                            <tr>
+                                <th>Instituição</th>
+                                <th>Ano de Aplicação</th>
+                                <th>Curso</th>
+                                <th>Nota</th>
+                            </tr>
+                        </thead>
+
+                        @{
+                            foreach (var item in (List<DashEnadeViewModel>)ViewBag.ListaDash)
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td>@item.Instituicao</td>
+                                        <td>@item.AnoAplicacao</td>
+                                        <td>@item.Curso</td>
+                                        <td>@item.Nota</td>
+                                    </tr>
+                                </tbody>
+                            }
+                        }
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="links">
+
+                <br />
+
+                <div class="text-center">
+
+                    <h4 class="mb-3">Links Úteis</h4>
+
+                    <div class="Unicid">
+
+                        <img src="/imgs/unicid-logo.png" width="70" />
+                        <br />
+                        <a href="https://www.unicid.edu.br/" target="_blank">UNICID</a>
+                        <hr />
+
+                    </div>
+
+
+
+                    <div class="Enade">
+
+                        <img src="/imgs/Enade.jpg" width="70" />
+                        <br />
+                        <a href="http://enade.inep.gov.br/enade" target="_blank">ENADE</a>
+                        <hr />
+
+                    </div>
+
+
+                    <div class="Ministerio">
+
+                        <img src="/imgs/Mec.jpg" width="70" />
+                        <br />
+                        <a href="http://portal.mec.gov.br" target="_blank">MEC</a>
+
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

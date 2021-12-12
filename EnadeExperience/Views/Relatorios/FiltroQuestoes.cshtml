@@ -1,0 +1,235 @@
+﻿@model QuestoesViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Relatórios de Questões";
+
+    var TrazViewResultado = 0;
+
+    try
+    {
+        TrazViewResultado = ViewBag.Resultado;
+    }
+    catch { }
+
+}
+
+<div class="text-center">
+    <h1 class="display-4">Relatórios de Questões</h1>
+</div>
+<div class="corpo">
+    <form asp-controller="Relatorios" asp-action="FiltrarQuestao" id="formulario">
+        <h3>Filtros</h3>
+        <hr />
+        <br />
+
+        <div class="col-md-12">
+            <div class="row">
+
+                <div class="col-md-4">
+                    <h6 class="ajustaTexto">Curso</h6>
+                    <select name="Curso" form="formulario" class="dropdown-item-text" asp-for="Curso">
+                        @{
+                            <option value="">Selecione o Curso</option>
+                            foreach (var curso in ViewBag.Cursos)
+                            {
+                                <option value="@curso.ID">@curso.NomeCurso</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <br />
+
+
+                <div class="col-md-4">
+                    <h6 class="ajustaTexto">Ano</h6>
+                    <select name="Ano" form="formulario" class="dropdown-item-text" asp-for="Ano">
+
+                        @{
+                            <option value="">Selecione o ano</option>
+
+                            for (int i = DateTime.Now.Year; i != 2003; i--)
+                            {
+                                <option value="@i.ToString()">@i.ToString()</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <br />
+
+                <div class="col-md-4">
+                    <h6 class="ajustaTexto">Dificuldade</h6>
+                    <select name="Dificuldade" form="formulario" class="dropdown-item-text" asp-for="Dificuldade">
+                        <option value="">Selecione a Dificuldade</option>
+                        <option value="Facil">Fácil</option>
+                        <option value="Medio">Médio</option>
+                        <option value="Dificil">Difícil</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <br />
+
+        <div class="float-left ml-3">
+            <center>
+                <h6>Disciplina</h6>
+            </center>
+            <select name="Disciplina" form="formulario" class="dropdown-item-text dropdown-menu-xl-left" style="width: 270px;" asp-for="Disciplina">
+                @{
+                    <option value="">Selecione a Disciplina</option>
+                    foreach (var disciplina in ViewBag.Disciplinas)
+                    {
+                        <option value="@disciplina.ID">@disciplina.NomeDisciplina</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="float-right mr-4">
+            <center>
+                <h6>Ordenar por</h6>
+            </center>
+
+            <select name="Ordem" form="formulario" class="dropdown-item-text" style="width: 270px;" asp-for="Ordem">
+                <option value="">Selecione a Ordem</option>
+                <option value="Questao">Questão</option>
+                <option value="Ano">Ano</option>
+                <option value="Dificuldade">Dificuldade</option>
+            </select>
+        </div>
+
+        <br /> <br /> <br /> <br />
+
+        <button type="button" class="btn btn-info float-left" onclick="VoltarPagina()">Voltar</button>
+
+        <button type="submit" class="btn btn-success float-right">Pesquisar Questões</button>
+
+        <br />
+
+    </form>
+
+    <br /> <br /> <br />
+    @{ if (TrazViewResultado != 0)
+        {
+            <h3>Resultado da pesquisa</h3>
+            <hr />
+
+            <div class="scroll">
+                @foreach (var item in (List<QuestoesViewModel>)ViewBag.QuestoesFiltradas)
+                {
+                    // Só está funcionando nessa logíca por algum motivo
+                    @if (item.Imagem is null || item.Imagem == "")
+                    {
+
+                    }
+                    else
+                    {
+                        <strong>Imagem: </strong>
+                        <br />
+                        <img style="width: 320px; height: 320px;" src="@Url.Content(item.Imagem)" />
+                        <br /><br />
+                    }
+                    <strong>Questão: </strong>
+                    <p class="text-justify">@Html.Raw(item.Questao)</p>
+                    <br />
+                    <strong>Resposta: </strong>
+                    <p class="text-justify">@Html.Raw(item.Resposta)</p>
+                    <br />
+                    <strong>Curso: </strong>
+                    <p>@Html.DisplayFor(modelItem => item.Curso)</p>
+                    <br />
+                    <strong>Disciplinas: </strong>
+                    <p>
+                        @Html.DisplayFor(modelItem => item.Disciplina)<br />
+                        @if (item.Disciplina2 != "")
+                        {
+                            @Html.DisplayFor(modelItem => item.Disciplina2)<br />
+                        }
+
+                        @if (item.Disciplina3 != "")
+                        {
+                            @Html.DisplayFor(modelItem => item.Disciplina3)<br />
+                        }
+
+                        @if (item.Disciplina4 != "")
+                        {
+                            @Html.DisplayFor(modelItem => item.Disciplina4)<br />
+                        }
+
+                        @if (item.Disciplina5 != "")
+                        {
+                            @Html.DisplayFor(modelItem => item.Disciplina5)<br />
+                        }
+                    </p>
+                    <br />
+                    <strong>Dificuldade: </strong>
+                    <p>@Html.DisplayFor(modelItem => item.Dificuldade)</p>
+                    <br />
+                    <strong>Ano: </strong>
+                    <p>@Html.DisplayFor(modelItem => item.Ano)</p>
+                    <br />
+                    <button type="button" class="btn btn-primary btn-sm" onclick="EditarQuestao(@item.ID.ToString())">Editar</button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="ExcluirQuestao(@item.ID.ToString())">Excluir</button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="DetalhesQuestao(@item.ID.ToString())">Detalhes</button>
+                    <hr />
+                }
+            </div>
+            <br />
+            @*<button asp-action="VisualizarPDF" class="btn btn-warning float-right" form="formulario">Gerar Relatório</button>*@
+
+            <div class="btn-group dropup float-right">
+                <button type="button" class="btn btn-warning dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Gerar Relatório
+                </button>
+                <div class="dropdown-menu">
+                    <button class="dropdown-item" asp-action="VisualizarPDF" form="formulario">PDF</button>
+                    <button class="dropdown-item" asp-action="VisualizarExcel" form="formulario">Excel</button>
+                    <button class="dropdown-item" asp-action="VisualizarProva" form="formulario">Prova</button>
+                </div>
+            </div>
+        }
+    }
+
+
+</div>
+
+<script>
+
+    function IncluirQuestao() {
+
+        window.location.href = "../Questoes/IncluirQuestao";
+
+    }
+
+    function EditarQuestao(id_questao) {
+
+        window.location.href = "../Questoes/IncluirQuestao/" + id_questao;
+
+    }
+
+    function ExcluirQuestao(id_questao) {
+
+        let confirma = confirm("Deseja excluir o item selecionado?");
+
+        if (confirma == true) {
+            window.location.href = "../Questoes/ExcluirQuestaoRelatorio/" + id_questao;
+        } else {
+            return;
+        }
+
+    }
+
+    function DetalhesQuestao(id_questao) {
+
+        window.location.href = "../Questoes/DetalhesQuestao/" + id_questao;
+
+    }
+
+    function VoltarPagina() {
+
+        window.location.href = "/Home/Index";
+
+    }
+
+</script>

@@ -1,0 +1,116 @@
+﻿@model LoginViewModel
+@{
+    ViewBag.Title = "Login";
+
+    var PopUp = 0;
+
+    try
+    {
+        PopUp = ViewBag.PopUpUsuario;
+    }
+    catch { }
+}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EnadeExperience</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="shortcut icon" type="imagex/png" href="~/imgs/LogoTipo.png">
+</head>
+
+<body class="containerLogin" onload="PopUpUsuario()">
+    <div class="container">
+        <div class="boxLogin">
+
+            <form asp-controller="Login" asp-action="Logar" method="post">
+
+                <div class="tituloLogin">
+
+                    <h2>Login</h2>
+
+                </div>
+
+                <div class="formLogin">
+                    <div class="row mb-5">
+
+                        <asp:label for="usuario" class="col-sm-2 col-form-label">Usuário: </asp:label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" asp-for="UserName" placeholder="Digite seu usuário" required>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-3">
+
+                        <asp:label for="senha" class="col-sm-2 col-form-label">Senha: </asp:label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" asp-for="Password" placeholder="Digite sua senha" required>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <br />
+
+                <div class="botaoLogin">
+
+                    <a asp-controller="Login" asp-action="CadastroUsuario" class="btn btn-primary">Cadastrar</a>
+
+                    &nbsp;&nbsp;
+
+                    <input type="submit" class="btn btn-success" value="Entrar" />
+
+                </div>
+
+                <br />
+
+                @{
+                    try
+                    {
+                        if (TempData["MensagemLoginInvalido"].ToString() != null)
+                        {
+                            <div class="text-center alert-danger">
+                                <strong>Atenção! </strong>@TempData["MensagemLoginInvalido"]
+                            </div>
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                }
+
+            </form>
+
+        </div>
+        <footer class="rodapeLogin">
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+
+        function PopUpUsuario() {
+            if (@PopUp > 0) {
+                alert("Usuário cadastrado com sucesso!")
+            } else {
+                return;
+            }
+        }
+
+    </script>
+
+</body>
+</html>
+
+
+
+

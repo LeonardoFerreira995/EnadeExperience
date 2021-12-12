@@ -1,0 +1,103 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Disciplinas";
+
+    var PopUp = 0;
+
+    try
+    {
+        PopUp = ViewBag.PopUpDisciplina;
+    }
+    catch { }
+}
+<div class="text-center">
+
+    <h1 class="display-4">Disciplinas</h1>
+
+</div>
+
+<div class="corpo" onload="PopUpDisciplina">
+    <div class="scroll">
+
+        <table class="table table-bordered table-sm">
+
+            <thead>
+                <tr>
+                    @*@<th class="text-center">ID</th>*@
+                    <th class="text-center">Nome da Disciplina</th>
+                    <th class="text-center">Opções</th>
+                </tr>
+            </thead>
+
+            @{
+                foreach (var disciplina in (List<DisciplinasViewModel>)ViewBag.ListaDisciplinas)
+                {
+                    <tbody>
+                        <tr>
+                            @*<td>@disciplina.ID.ToString()</td>*@
+                            <td>@disciplina.NomeDisciplina</td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="EditarDisciplina(@disciplina.ID.ToString())">Editar</button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="ExcluirDisciplina(@disciplina.ID.ToString())">Excluir</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            }
+
+        </table>
+
+    </div>
+
+    <br />
+
+    <button type="button" class="btn btn-info float-left" onclick="VoltarPagina()">Voltar</button>
+
+    <button type="button" class="btn btn-success float-right" onclick="IncluirDisciplina()">Incluir Disciplina</button>
+
+</div>
+
+<script>
+
+    function IncluirDisciplina() {
+
+        window.location.href = "../Disciplinas/IncluirDisciplina";
+
+    }
+
+    function EditarDisciplina(id_disciplina) {
+
+        window.location.href = "../Disciplinas/IncluirDisciplina/" + id_disciplina;
+
+    }
+
+    function ExcluirDisciplina(id_disciplina) {
+
+        let confirma = confirm("Você deseja realmente excluir a disciplina selecionada? Questões vinculadas a esta disciplina também serão excluídas!");
+
+        if (confirma == true) {
+            window.location.href = "../Disciplinas/ExcluirDisciplina/" + id_disciplina;
+            alert("Disciplina excluída com sucesso!")
+        } else {
+            return;
+        }
+
+    }
+
+    window.onload = function PopUpDisciplina() {
+        if (@PopUp == 1) {
+            window.location.href = "/Disciplinas/Disciplinas"
+            alert("Disciplina cadastrada com sucesso!")
+        } else if (@PopUp == 2) {
+            window.location.href = "/Disciplinas/Disciplinas"
+            alert("Disciplina alterada com sucesso!")
+        }
+    }
+
+    function VoltarPagina() {
+
+        window.location.href = "/Home/Index";
+
+    }
+
+</script>

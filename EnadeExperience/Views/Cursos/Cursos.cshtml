@@ -1,0 +1,103 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Cursos";
+
+    var PopUp = 0;
+
+    try
+    {
+        PopUp = ViewBag.PopUpCurso;
+    }
+    catch { }
+
+}
+<div class="text-center">
+    <h1 class="display-4">Cursos</h1>
+</div>
+
+<div class="corpo" onload="PopUpCurso()">
+    <div class="scroll">
+
+        <table class="table table-bordered table-sm">
+
+            <thead>
+                <tr>
+                    @*<th class="text-center">ID</th>*@
+                    <th class="text-center">Nome do Curso</th>
+                    <th class="text-center">Opções</th>
+                </tr>
+            </thead>
+
+            @{
+                foreach (var curso in (List<CursoViewModel>)ViewBag.ListaCurso)
+                {
+                    <tbody>
+                        <tr>
+                            @*<td>@curso.ID.ToString()</td>*@
+                            <td>@curso.NomeCurso</td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="EditarCurso(@curso.ID.ToString())">Editar</button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="ExcluirCurso(@curso.ID.ToString())">Excluir</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            }
+
+        </table>
+
+    </div>
+
+    <br />
+
+    <button type="button" class="btn btn-info float-left" onclick="VoltarPagina()">Voltar</button>
+
+    <button type="button" class="btn btn-success float-right" onclick="IncluirCurso()">Incluir Curso</button>
+
+</div>
+
+<script>
+
+    function IncluirCurso() {
+
+        window.location.href = "../Cursos/IncluirCurso";
+
+    }
+
+    function EditarCurso(id_curso) {
+
+        window.location.href = "../Cursos/IncluirCurso/" + id_curso;
+
+    }
+
+    function ExcluirCurso(id_curso) {
+
+        let confirma = confirm("Você deseja realmente excluir o curso selecionado? Questões vinculadas a este curso também serão excluídas!");
+
+        if (confirma == true) {
+            window.location.href = "../Cursos/ExcluirCurso/" + id_curso;
+            alert("Curso excluído com sucesso!")
+        } else {
+            return;
+        }
+    }
+
+    function VoltarPagina() {
+
+        window.location.href = "/Home/Index";
+
+    }
+
+    window.onload = function PopUpCurso() {
+        if (@PopUp == 1) {
+            window.location.href = "/Cursos/Cursos"
+            alert("Curso cadastrado com sucesso!")
+        } else if (@PopUp == 2) {
+            window.location.href = "/Cursos/Cursos"
+            alert("Curso alterado com sucesso!")
+        } else {
+            return;
+        }
+    }
+
+</script>

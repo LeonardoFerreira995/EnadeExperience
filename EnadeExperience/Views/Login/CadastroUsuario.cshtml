@@ -1,0 +1,101 @@
+﻿@model LoginViewModel
+@{
+    ViewBag.Title = "Cadastro de Usuário";
+}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EnadeExperience</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="shortcut icon" type="imagex/png" href="~/imgs/LogoTipo.png">
+
+</head>
+
+<body class="containerLogin">
+    <div class="container">
+        <div class="boxLogin">
+
+            <form asp-controller="Login" asp-action="Cadastrar" method="post">
+
+                <div class="tituloLogin">
+
+                    <h2>Cadastro de Usuário</h2>
+
+                </div>
+
+                <div class="formLogin">
+                    <div class="row mb-5">
+
+                        <asp:label for="usuario" class="col-sm-2 col-form-label">Usuário: </asp:label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" asp-for="UserName" placeholder="Digite seu usuário" required>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-5">
+
+                        <asp:label for="senha" class="col-sm-2 col-form-label">Senha: </asp:label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" asp-for="Password" placeholder="Digite sua senha" required>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-3">
+
+                        <asp:label for="senha" class="col-sm-2 col-form-label">Confirme: </asp:label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" asp-for="PasswordConfirm" placeholder="Confirme a senha" required>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="botaoLogin">
+
+                    <br />
+
+                    <a asp-controller="Login" asp-action="Index" class="btn btn-primary">Voltar</a>
+
+                    &nbsp;&nbsp;
+
+                    <input type="submit" class="btn btn-success" value="Cadastrar" />
+                </div>
+                @{
+                    try
+                    {
+                        if (TempData["MensagemConfirmacaoInvalida"].ToString() != null)
+                        {
+                            <div class="text-center alert-danger">
+                                <strong>Atenção! </strong>@TempData["MensagemConfirmacaoInvalida"]
+                            </div>
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                }
+            </form>
+        </div>
+        <footer class="rodapeLogin">
+         
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+</body>
+</html>
+
+
+
+
